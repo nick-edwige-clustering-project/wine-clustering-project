@@ -45,21 +45,24 @@ def ttest_viz(df, cat,cont):
         print(f'H_0 {i} has no effect on {cat[0]}')
         print(f'H_a {i} has an effect on {cat[0]}')
 
-        t_stat, p_value = spearmanr(df[i], df[cat[0]])
+        r_value, p_value = spearmanr(df[i], df[cat[0]])
         
         # box plot
         sns.barplot(data=df, y=i, x=cat[0])
         plt.title(f'{i.capitalize()} and {cat[0].capitalize()}')
+        plt.grid(linestyle='-.', axis='y')  # Add grid line for better visualization
         plt.ylabel(i.capitalize())
         plt.xlabel(f'{cat[0].capitalize()}')
         plt.show()
         
         if p_value < 0.05:
             print(f'Reject the null hypothesis: {i} has an effect on {cat[0]}. (p-value: {p_value:.4e})')
+            print(r_value)
             print()
             print()
         else:
             print(f"Fail to reject the null hypothesis: No significant evidence to suggest that {i} affects {cat[0]}. (p-value: {p_value:.4e})")
+            print(r_value)
             print()
             print()
             
