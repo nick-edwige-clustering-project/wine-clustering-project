@@ -14,3 +14,12 @@ def cont_plots(df, cont):
                 plt.xlabel(i.capitalize())
                 plt.ylabel(l.capitalize())
                 plt.show()
+                
+for i in cont:
+    l = residual_sugar
+    if i != l:
+        sns.scatterplot(data=df, x=i , y=l)
+        plt.title(f'{l.capitalize()} by {i.capitalize()}')
+        plt.xlabel(i.capitalize())
+        plt.ylabel(l.capitalize())
+        plt.show()
