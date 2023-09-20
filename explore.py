@@ -3,16 +3,16 @@ import seaborn as sns
 from scipy.stats import pearsonr, ttest_ind, spearmanr
 
 def reajust_range(wine):
-    wine = wine[wine.fixed_acidity < 12]
-    wine = wine[wine.volatile_acidity < 1.0]
+    wine = wine[(wine.fixed_acidity < 12) & (wine.fixed_acidity > 4.5)]
+    wine = wine[wine.volatile_acidity < 0.8]
     wine = wine[wine.citric_acid < 0.8]
     wine = wine[wine.residual_sugar < 22]
-    wine = wine[wine.chlorides < .15]
-    wine = wine[wine.free_sulfur_dioxide < 100]
-    wine = wine[wine.total_sulfur_dioxide < 300]
+    wine = wine[wine.chlorides < .12]
+    wine = wine[wine.free_sulfur_dioxide < 80]
+    wine = wine[wine.total_sulfur_dioxide < 275]
     wine = wine[wine.density < 1.01]
-    #wine = wine[wine.pH < 5]
-    wine = wine[wine.sulphates < 1.15]
+    wine = wine[wine.pH < 3.8]
+    wine = wine[wine.sulphates < 1.00]
     # wine = wine[wine.alcohol < 1000]
     return wine
 
