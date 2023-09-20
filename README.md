@@ -25,7 +25,6 @@
 | Module/Filename        | Description                                                                 |
 |:-----------------------|:----------------------------------------------------------------------------|
 | prepare.py             | Scrubs, and splits the wines data.                                |
-| all_maps.py            | Includes data and functions to map all 2017 listings.                       |
 | evaluate.py            | Contains functions to evaluate model performance and metrics.               |
 | model.py               | Contains functions to create and evaluate different models.                 |
 | README.md              | Provides an overview of the project.                                        |
@@ -62,3 +61,6 @@
 
 
 # Recommendations
+
+* ????????????????
+* ???????????????
