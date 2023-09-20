@@ -16,9 +16,11 @@ def all_data():
     white = pd.read_csv('winequality-white.csv')
     red['wine_type'] = 'red'
     white['wine_type'] = 'white'
-    wines = pd.concat([red,white])
+    wine = pd.concat([red,white])
+    wine = wine.reset_index().drop(columns='index')
+    wine.columns = wine.columns.str.replace(' ','_')
     
-    return wines
+    return wine
 
 
 def train_val_test(df, strat='None', seed=100, stratify=False):  # Splits dataframe into train, val, test
