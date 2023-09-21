@@ -120,5 +120,5 @@ def drink_up(wine):
     train, val, test = scale(wine, train=train, val=val, test=test, scaled_cols=(wine.select_dtypes(float).columns))
     train, val, test = dummies(train, val, test, drop_first=['wine_type'])
     x_train, y_train = split_xy(train, 'quality')
-    x_val, y_val = split_xy(train, 'quality')
+    x_val, y_val = split_xy(val, 'quality')
     return  x_train, y_train, x_val, y_val, test
