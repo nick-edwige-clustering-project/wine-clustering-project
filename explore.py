@@ -39,11 +39,14 @@ def cat_or_cont(df) -> list:
     return cat, cont
 
 
-def ttest_viz(df, cat,cont):
+def ttest_viz(df):
     '''
     run and plots ttest for categorical features against a continuous target
     '''    
+    cat, cont = cat_or_cont(df)
     for i in cont:
+        print(f'Does the feature "{i}" have an effect on {cat[0]}?')
+        print()
         print(f'H_0 {i} has no effect on {cat[0]}')
         print(f'H_a {i} has an effect on {cat[0]}')
 
@@ -60,6 +63,8 @@ def ttest_viz(df, cat,cont):
         if p_value < 0.05:
             print(f'Reject the null hypothesis: {i} has an effect on {cat[0]}. (p-value: {p_value:.4e})')
             print(r_value)
+            print('======================')
+            print('======================')
             print()
             print()
         else:
