@@ -1,11 +1,13 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import explore
 
 
-def cont_plots(df, cont):
+def cont_plots(df):
     '''
-    scatter plot for all continous
+    scatter plot for all continuous
     '''
+    cat, cont = explore.cat_or_cont(df)
     for i in cont:
         for l in cont:
             if i != l:
@@ -16,10 +18,11 @@ def cont_plots(df, cont):
                 plt.show()
 
                 
-def contnious_plot(df, cont,target):
+def continuous_plot(df,target):
     '''
-    plots target continous variable against all other continuos varibles.
+    plots target continuous variable against all other continuos varibles.
     '''
+    cat, cont = explore.cat_or_cont(df)
     for i in cont:
         l = target
         if i != l:
@@ -30,10 +33,11 @@ def contnious_plot(df, cont,target):
             plt.show()
 
             
-def cont_plots(df, cont):
+def cont_plots(df):
     '''
-    scatter plot for all continous
+    scatter plot for all continuous
     '''
+    cat, cont = explore.cat_or_cont(df)
     for i in cont:
         for l in cont:
             if i != l:

@@ -2,19 +2,21 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import pearsonr, ttest_ind, spearmanr
 
-def reajust_range(wine):
-    wine = wine[(wine.fixed_acidity < 12) & (wine.fixed_acidity > 4.5)]
-    wine = wine[wine.volatile_acidity < 0.8]
-    wine = wine[wine.citric_acid < 0.8]
-    wine = wine[wine.residual_sugar < 22]
-    wine = wine[wine.chlorides < .12]
-    wine = wine[wine.free_sulfur_dioxide < 80]
-    wine = wine[wine.total_sulfur_dioxide < 275]
-    wine = wine[wine.density < 1.01]
-    wine = wine[wine.pH < 3.8]
-    wine = wine[wine.sulphates < 1.00]
-    # wine = wine[wine.alcohol < 1000]
-    return wine
+def red_white(df):
+    '''
+    compares the differneces between red and white wine
+    '''
+    red = df[df.wine_type == 'red']
+    white = df[df.wine_type == 'white']
+    for col in df.columns:
+        if col == 'wine_type':
+            continue
+        plt.figure()
+        sns.histplot(df, x=col, hue='wine_type')
+        plt.axvline(x = red[col].mean(), color = 'blue', linestyle='dashed')
+        plt.axvline(x = white[col].mean(), color = 'red', linestyle='dashed')
+        plt.legend(labels=['average red wine','average white wine','white wine','red wine'])
+        plt.show()
 
 
 def cat_or_cont(df) -> list:

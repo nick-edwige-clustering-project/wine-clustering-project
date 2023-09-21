@@ -109,12 +109,38 @@ def split_xy(df, target=''):
     return x_df, y_df  # Returns dataframe
 
 
+def readjust_range(wine):
+    '''
+    trims 5% of total data to remove outliers.
+    '''
+    wine = wine[(wine.fixed_acidity < 12) & (wine.fixed_acidity > 4.5)]
+    wine = wine[wine.volatile_acidity < 0.8]
+    wine = wine[wine.citric_acid < 0.8]
+    wine = wine[wine.residual_sugar < 22]
+    wine = wine[wine.chlorides < .12]
+    wine = wine[wine.free_sulfur_dioxide < 80]
+    wine = wine[wine.total_sulfur_dioxide < 275]
+    wine = wine[wine.density < 1.01]
+    wine = wine[wine.pH < 3.8]
+    wine = wine[wine.sulphates < 1.00]
+    # wine = wine[wine.alcohol < 1000]
+    return wine
+
+
 def pour():
+    '''
+    pipeline funtion. runs entire pipeline returns cleaned df
+    '''
     wine = all_data()
-    wine = ex.reajust_range(wine)
+    wine = readjust_range(wine)
     return wine
 
 def drink_up(wine):
+    '''
+    splits df for train, val, test
+    and further into x and y splits
+    test will be split by itlsef later
+    '''
     train, val, test = train_val_test(wine, strat='quality', seed=100)
     train, val, test = scale(wine, train=train, val=val, test=test, scaled_cols=(wine.select_dtypes(float).columns))
     train, val, test = dummies(train, val, test, drop_first=['wine_type'])
