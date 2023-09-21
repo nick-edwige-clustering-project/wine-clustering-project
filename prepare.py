@@ -5,6 +5,10 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
 
+import acquire as ac
+import explore as ex
+
+
 # Data is pulled from https://data.world/food/wine-quality
 def all_data():
     '''
@@ -105,3 +109,16 @@ def split_xy(df, target=''):
     y_df = df[target]
     return x_df, y_df  # Returns dataframe
 
+
+def pour():
+    wine = ac.get_wine()
+    wine = ex.reajust_range(wine)
+    return wine
+
+def drink_up(wine):
+    train, val, test = train_val_test(wine, strat='quality', seed=100)
+    train, val, test = scale(wine, train=train, val=val, test=test, scaled_cols=(wine.select_dtypes(float).columns))
+    train, val, test = dummies(train, val, test, drop_first=['wine_type'])
+    x_train, y_train = split_xy(train, 'quality')
+    x_val, y_val = split_xy(train, 'quality')
+    return  x_train, y_train, x_val, y_val, test
