@@ -5,7 +5,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
 
-import acquire as ac
 import explore as ex
 
 
@@ -111,7 +110,7 @@ def split_xy(df, target=''):
 
 
 def pour():
-    wine = ac.get_wine()
+    wine = all_data()
     wine = ex.reajust_range(wine)
     return wine
 
@@ -122,3 +121,4 @@ def drink_up(wine):
     x_train, y_train = split_xy(train, 'quality')
     x_val, y_val = split_xy(train, 'quality')
     return  x_train, y_train, x_val, y_val, test
+
