@@ -20,6 +20,11 @@
 3) Put the data in the file containing the cloned repo.
 4) Run notebook.
 
+
+# Seed State
+seed = 100
+
+
 # Modules / Files
 
 | Module/Filename        | Description                                                                 |
@@ -48,19 +53,20 @@
 
 # Initial Thoughts and Questions
 
-* What is wine?
+* What is the best way to use clustering to provide value for building predictive models.
 
-* What color is red wine really?
-
-* How many glasses of wine before you switch from tipsy to krunk?
+* Are there any other useful devides besides red and white wine?
 
 
 # Takeaways and Conclusions
-* All elements of the MVP features effect value.
-* Our model can predect the ???????????????????
+* Clustering did not meaningfully impact our models as we used it. If we leaned into red versus white then we could perhaps increase our model accuracy.
+
+* Our model was able to beat the baseline model by:
 
 
-# Recommendations
+# Next Steps
 
-* ????????????????
-* ???????????????
+* Explore Davies-Bouldin Index, & Calinski-Harabasz Index for determining minimum number of ideal clusters for the different clustering models. This will allow a progromatic assessment of clustering.
+* Explore silhouette scoreing as means to determine quality of clustering.
+* Cluster all variables by white and red. The clusters that we did do show that a lot of the data is representented in that catagory. Clustering might allow us to greatly reduce noise using those two obvious splits.
+* Create two seperate models for red and white respectively.
