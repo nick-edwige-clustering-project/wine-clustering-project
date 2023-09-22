@@ -1,6 +1,21 @@
 from math import sqrt
 
 import pandas as pd
+import prepare as prep
+# For modeling
+from sklearn.linear_model import LinearRegression, LassoLars, TweedieRegressor
+from sklearn.preprocessing import PolynomialFeatures
+
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.cluster import KMeans
+
+seed = 100
 
 """
 Cheat sheet for stats tests:
@@ -125,3 +140,77 @@ def train_model_gen2(model, X_train, y_train, X_val, y_val):
     skip3, skip4, val_rmse = eval_model(y_val, val_preds)  # Caculate RMSE for model on validate
     print(f'The train RMSE is {train_rmse}.')
     print(f'The validate RMSE is {val_rmse}.')
+    
+    
+def cluster_pipeline(wine, cluster_cols=['total_sulfur_dioxide', 'chlorides', 'density'],
+                     clusters = 3):
+    
+    x_train, y_train, x_val, y_val, test = prep.drink_up(wine)
+    x_test, y_test = prep.split_xy(test, 'quality')
+
+    X = x_train[cluster_cols]
+    Y = x_val[cluster_cols]
+    Z = test[cluster_cols]
+
+    kmeans = KMeans(n_clusters=clusters, n_init='auto')
+    kmeans.fit(X)
+
+    train_pred = kmeans.predict(X).astype(str)
+    val_pred = kmeans.predict(Y)
+    test_pred = kmeans.predict(Z)
+
+    x_train = x_train.drop(columns=cluster_cols)
+    x_val = x_val.drop(columns=cluster_cols)
+    x_test = x_test.drop(columns=cluster_cols)
+    
+    x_train['cluster'] = train_pred
+    x_val['cluster'] = val_pred
+    x_test['cluster'] = test_pred
+    
+    if clusters < 3:
+        x_train = pd.get_dummies(x_train, columns=['cluster'], drop_first=True)
+        x_val = pd.get_dummies(x_val, columns=['cluster'], drop_first=True)
+        x_test = pd.get_dummies(x_test, columns=['cluster'], drop_first=True)
+    else:
+        x_train = pd.get_dummies(x_train, columns=['cluster'], drop_first=False)
+        x_val = pd.get_dummies(x_val, columns=['cluster'], drop_first=False)
+        x_test = pd.get_dummies(x_test, columns=['cluster'], drop_first=False)
+    
+    return  x_train, y_train, x_val, y_val,  x_test, y_test
+
+
+def cluster_pipeline_v2(wine, cluster_cols=['total_sulfur_dioxide', 'chlorides', 'density'],
+                     clusters = 3):
+    
+    x_train, y_train, x_val, y_val, test = prep.drink_up(wine)
+    x_test, y_test = prep.split_xy(test, 'quality')
+
+    X = x_train[cluster_cols]
+    Y = x_val[cluster_cols]
+    Z = test[cluster_cols]
+
+    kmeans = KMeans(n_clusters=clusters, n_init='auto')
+    kmeans.fit(X)
+
+    train_pred = kmeans.predict(X).astype(str)
+    val_pred = kmeans.predict(Y)
+    test_pred = kmeans.predict(Z)
+
+    #x_train = x_train.drop(columns=cluster_cols)
+    #x_val = x_val.drop(columns=cluster_cols)
+    #x_test = x_test.drop(columns=cluster_cols)
+    
+    x_train['cluster'] = train_pred
+    x_val['cluster'] = val_pred
+    x_test['cluster'] = test_pred
+    '''
+    if clusters < 3:
+        x_train = pd.get_dummies(x_train, columns=['cluster'], drop_first=True)
+        x_val = pd.get_dummies(x_val, columns=['cluster'], drop_first=True)
+        x_test = pd.get_dummies(x_test, columns=['cluster'], drop_first=True)
+    else:
+        x_train = pd.get_dummies(x_train, columns=['cluster'], drop_first=False)
+        x_val = pd.get_dummies(x_val, columns=['cluster'], drop_first=False)
+        x_test = pd.get_dummies(x_test, columns=['cluster'], drop_first=False)
+    '''
+    return  x_train, y_train, x_val, y_val,  x_test, y_test
